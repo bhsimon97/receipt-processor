@@ -21,9 +21,13 @@ The API currently has two endpoints: `/receipts/process` and `/receipts/{id}/poi
 ## Process Receipts
 
 **Path**: `/receipts/process`
+
 **Method**: `POST`
+
 **Payload**: Receipt JSON
+
 **Response**: JSON containing an id for the receipt.
+
 
 **Description**:
 
@@ -55,8 +59,11 @@ todo
 ## Get Points
 
 **Path**: `/receipts/{id}/points`
+
 **Method**: `GET`
+
 **Payload**: None
+
 **Response**: A JSON object containing the number of points awarded.
 
 **Example Request (via cURL)**:
