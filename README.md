@@ -4,6 +4,8 @@ This is a REST API built using Go for the Fetch Backend Developer take-home assi
 
 As requested in the documentation provided by Fetch, there is no persistence of data when the application stops. Information is stored in memory and will be lost when the application stops.
 
+[gorilla/mux](https://github.com/gorilla/mux) was chosen as the request router and dispatcher for pairing incoming requests with the correct handler. Mux was chosen because it is well-documented and provides a lighter footprint than other alternatives such as Gin and Chi, which is nice in smaller applications such as this which won't be scaled up.
+
 # Setup
 
 ## Setting up the application without Docker
