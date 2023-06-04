@@ -13,21 +13,25 @@ import (
 )
 
 type receipt struct {
-	ID 					int `json:"id"`
+	ID 					int `json:"id,string"`
 	Retailer 			string `json:"retailer"`
 	PurchaseDate 		string `json:"purchaseDate"`
 	PurchaseTime 		string `json:"purchaseTime"`
-	Items 				[]item `json:"items"`
-	Total 				float64 `json:"total"`
+	Items 				[]item `json:"items,string"`
+	Total 				float64 `json:"total,string"`
 }
 
 type item struct {
 	ShortDescription 	string `json:"shortDescription"`
-	Price 				float64 `json:"price"`
+	Price 				float64 `json:"price,string"`
 }
 
 type pointsResponse struct {
 	Points int `json:"points"`
+}
+
+type processReceiptResponse struct {
+	ID int `json:"id"`
 }
 
 type allReceipts []receipt
@@ -88,6 +92,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/receipts/{id}/points", getPoints).Methods("GET")
+	r.HandleFunc("/receipts/process", processReceipt).Methods("POST")
 
 	fmt.Println("Binding server to port 8080")
 	http.ListenAndServe(":8080", r)
@@ -174,4 +179,49 @@ func calculatePoints(receipt receipt) int {
 	}
 
 	return points
+}
+
+func processReceipt(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Received request to process receipt.")
+
+	// Convert JSON request body to receipt struct
+	var receipt receipt
+
+	err := json.NewDecoder(r.Body).Decode(&receipt)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Check if receipts array has an identical receipt to the one in the request body
+	// If it does, return the ID of the receipt in the receipts array
+	// If it doesn't, add an ID of len(receipts) + 1 to the receipt and append it to the receipts array, then return the new ID
+	receiptID := findReceiptID(receipt)
+
+	if(receiptID != -1){
+		fmt.Println("Receipt already exists with ID", receiptID, ". Returning that ID.")
+	}else{
+		fmt.Println("Receipt does not exist. Adding receipt to receipts array. Returning with ID", len(receipts) + 1)
+		receipt.ID = len(receipts) + 1
+		receipts = append(receipts, receipt)
+		receiptID = receipt.ID
+	}
+	
+	response := processReceiptResponse{ID: receiptID}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+
+	fmt.Println("Successfully processed receipt ID", receiptID)
+}
+
+
+func findReceiptID(receipt receipt) int {
+	for _, r := range receipts {
+		if r.Retailer == receipt.Retailer && r.PurchaseDate == receipt.PurchaseDate && r.PurchaseTime == receipt.PurchaseTime && r.Total == receipt.Total && len(r.Items) == len(receipt.Items) {
+			return r.ID
+		}
+	}
+
+	return -1
 }
