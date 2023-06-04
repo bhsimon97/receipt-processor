@@ -1,3 +1,4 @@
+
 # Receipt Processing Application
 
 This is a REST API built using Go for the Fetch Backend Developer take-home assignment. This API returns [JSON-encoded](https://www.json.org/json-en.html) responses and uses standard [HTTP response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status).
@@ -8,13 +9,17 @@ As requested in the documentation provided by Fetch, there is no persistence of 
 
 # Setup
 
-## Setting up the application without Docker
+## Setting up the application with Go preinstalled
 
-todo
+1.) Ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Go](https://go.dev/doc/install) installed on your machine.
 
-## Setting up the application with Docker
+2.) Create a new folder on your computer in a directory of your choice.
 
-todo
+3.) Open the Command Line or Terminal in your new directory and run the command `git clone https://github.com/bhsimon97/receipt-processor.git`
+
+4.) Execute the receipt-processor.exe file. You are good to go!
+
+5.) (Optional) If you would like to build your own executable after making changes, save your changes to the source code and run the command `go build` in the directory created in Step 3.
 
 # Endpoints
 
@@ -42,7 +47,7 @@ How many points should be earned is defined by the rules listed in the Rules sec
     {
         "retailer": "Walgreens",
         "purchaseDate": "2022-01-02",
-        "purchaseTime": "08:13",
+        "purchaseTime": "08:25",
         "total": "2.65",
         "items": [
             {"shortDescription": "Pepsi - 12-oz", "price": "1.25"},
@@ -52,11 +57,11 @@ How many points should be earned is defined by the rules listed in the Rules sec
 
 **Example Request via `curl`**:
 
-todo
+    curl -X POST -H "Content-Type: application/json" -d "{\"retailer\":\"Walgreens\",\"purchaseDate\":\"2022-01-02\",\"purchaseTime\":\"08:25\",\"total\":\"2.65\",\"items\":[{\"shortDescription\":\"Pepsi - 12-oz\",\"price\":\"1.25\"},{\"shortDescription\":\"Dasani\",\"price\":\"1.40\"}]}" http://localhost:8080/receipts/process
 
 **Example Response**:
 
-    { "id": "7fb1377b-b223-49d9-a31a-5a02701dd310" }
+    { "id": "5" }
 
 ## Get Points
 
@@ -70,11 +75,11 @@ todo
 
 **Example Request (via cURL)**:
 
-todo
+    curl -X GET "localhost:8080/receipts/3/points" \ -H "Content-Type: application/json"
 
 **Example Request (via Fetch API in JavaScript)**:
 
-    let id = yourIdHere;
+    let id = 3;
 
     fetch(`localhost:8080/receipts/${id}/points`)
         .then((response) => {
@@ -90,7 +95,7 @@ todo
 
 **Example Response**:
 
-    { "points": 32 }
+    { "points": 28 }
 
 # Rules
 
@@ -194,3 +199,4 @@ Breakdown:
 ```
 
 ---
+
