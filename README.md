@@ -204,3 +204,6 @@ Breakdown:
 
 ---
 
+**Testing**
+
+Unit tests have been included in the main file directory. These can be executed with the `go test` command.
