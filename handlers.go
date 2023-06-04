@@ -15,7 +15,7 @@ func getPoints(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Received request to get points for receipt ID %v \n", id)
 
-	points := 0
+	points := -1
 
 	if err != nil {
 		fmt.Println("Error converting ID in reqeust to type int")
@@ -25,7 +25,14 @@ func getPoints(w http.ResponseWriter, r *http.Request) {
 	for _, item := range receipts {
 		if item.ID == id {
 			points = calculatePoints(item)
+			break
 		}
+	}
+
+	if(points == -1){
+		fmt.Println("No receipt found with ID", id)
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
 	response := pointsResponse{Points: points}

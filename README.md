@@ -97,6 +97,8 @@ How many points should be earned is defined by the rules listed in the Rules sec
 
     { "points": 28 }
 
+**Note**: If the ID passed in is not found, a 404 status code will be returned.
+
 # Rules
 
 These rules collectively define how many points should be awarded to a receipt.
