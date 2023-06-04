@@ -7,6 +7,8 @@ As requested in the documentation provided by Fetch, there is no persistence of 
 
 [gorilla/mux](https://github.com/gorilla/mux) was chosen as the request router and dispatcher for pairing incoming requests with the correct handler. Mux was chosen because it is well-documented and provides a lighter footprint than other alternatives such as Gin and Chi, which is nice in smaller applications such as this which won't be scaled up.
 
+I personally did not have any experience writing in Go prior to this project; feel free to mention any best practices or design standards that I overlooked!
+
 # Setup
 
 ## Setting up the application with Go preinstalled
