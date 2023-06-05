@@ -56,7 +56,7 @@ func calculatePoints(receipt receipt) int {
 	minute := strings.Split(receipt.PurchaseTime, ":")[1]
 	hourInt, _ := strconv.Atoi(hour)
 	minuteInt, _ := strconv.Atoi(minute)
-	if (hourInt >= 14 && minuteInt > 00) && hourInt < 17 {
+	if (hourInt >= 14 && minuteInt > 00) && hourInt < 16 {
 		points += 10
 	}
 
